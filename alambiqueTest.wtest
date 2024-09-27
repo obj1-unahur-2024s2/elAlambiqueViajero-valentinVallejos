@@ -1,9 +1,123 @@
-import alambique.*
+import luke.*
+import vehiculos.*
+import lugares.*
+import carrera.*
 
-describe "group of tests" {
 
-  test "test 1" {
-    assert.equals(100, 50+50)
+
+describe "test primera parte " {
+
+  test "luke en alambique veloz visita Buenos  Aires" {
+    luke.vicitarLugar(buenosAires)
+
+
+    assert.equals(luke.cantDeLugaresVisitados(), 1)
+    assert.equals(luke.vehiculo().combustible(),200-30) // gasto de combustible
+  }
+
+  test "luke en alambique trae mate con yerba" {
+    luke.vicitarLugar(buenosAires)
+
+
+    assert.equals(luke.ultimoRecuerdo(),mate )
+
+    assert.that(buenosAires.recuerdo().tieneYerba())
+
+
+  }
+
+  test "luke en alambique trae mate sin yerba" {
+    luke.vicitarLugar(buenosAires)
+
+
+    assert.equals(luke.ultimoRecuerdo(),mate )
+
+    buenosAires.cambiarPresidente()
+
+    assert.notThat(buenosAires.recuerdo().tieneYerba())
+
+
+  }
+
+
+  test "luke en alambique visita las vegas conmemorando bagdad" {
+    vegas.cambiarConmemoracion(bagdad)
+    luke.vicitarLugar(vegas)
+
+
+    assert.equals(luke.cantDeLugaresVisitados(), 1)
+    assert.equals(luke.vehiculo().combustible(),200-110) // gasto de combustible
+  }
+
+  test "luke en alambique trae jardines flotantes de las vegas" {
+    vegas.cambiarConmemoracion(bagdad)
+    luke.vicitarLugar(vegas)
+
+    assert.equals(luke.ultimoRecuerdo(),replicaDeJardineDeBabilonia )
+  }
+
+  test "luke en superChatarraEspecial no puede ir a Buenos Aires" {
+    luke.cambiarDeVehiculo(superChatarraEspecial)
+
+    luke.vicitarLugar(buenosAires)
+
+    assert.equals(luke.cantDeLugaresVisitados(), 0)
+  }
+
+}
+
+
+describe "test segunda parte " {
+  test "alambique antiguallaBLindada y convertible puende participar en Buenos Aires" {
+    carrera.cambiarLugarDeLaCarrera(buenosAires)
+    carrera.inscribirVehiculo(alambiqueVeloz)
+    carrera.inscribirVehiculo(antiguallaBlindada)
+    carrera.inscribirVehiculo(superConvertible)
+
+    assert.equals(carrera.cantDeParticipantes(), 3)
+  }
+
+  test "trampas locas y superChatarraEspecial en no puende participar en Buenos Aires" {
+    carrera.cambiarLugarDeLaCarrera(buenosAires)
+    carrera.inscribirVehiculo(elTrampasLocas)
+    carrera.inscribirVehiculo(superChatarraEspecial)
+
+    assert.equals(carrera.cantDeParticipantes(), 0)
+  }
+
+  test "superMimetizador no puede Participar en vegas conmemorando Buenos Aires" {
+    vegas.cambiarConmemoracion(buenosAires)
+    carrera.cambiarLugarDeLaCarrera(vegas)
+    carrera.inscribirVehiculo(superMimetizador) // actualmente ya tiene las carecteristicas de superChatarraEspecial
+
+    assert.equals(carrera.cantDeParticipantes(), 0)
+  }
+
+  test "ganador de la carrera es convertible " {
+    carrera.cambiarLugarDeLaCarrera(buenosAires)
+    carrera.inscribirVehiculo(alambiqueVeloz)
+    carrera.inscribirVehiculo(antiguallaBlindada)
+    carrera.inscribirVehiculo(superConvertible)
+    carrera.realizarCarrera()
+
+    assert.equals(carrera.ganadorDeCarrera(), superConvertible)
+  }
+
+   test "ganador de la carrera es antiguallaBlindada" {
+    carrera.cambiarLugarDeLaCarrera(buenosAires)
+    carrera.inscribirVehiculo(alambiqueVeloz)
+    carrera.inscribirVehiculo(antiguallaBlindada)
+    carrera.inscribirVehiculo(superConvertible)
+    superConvertible.convertir()
+    antiguallaBlindada.agragarGangter("1234567890")
+    antiguallaBlindada.agragarGangter("1234567890")
+    antiguallaBlindada.agragarGangter("1234567890")
+    antiguallaBlindada.agragarGangter("1234567890")
+    carrera.realizarCarrera()
+
+    assert.equals(antiguallaBlindada.velocidadMax(), 219 + 40)
+
+    assert.equals(carrera.ganadorDeCarrera(),antiguallaBlindada)
   }
 
 }
